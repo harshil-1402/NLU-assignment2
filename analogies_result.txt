@@ -1,0 +1,4 @@
+research: [(np.float32(0.3943879), 'program'), (np.float32(0.35996658), 'years'), (np.float32(0.34219158), 'scholars'), (np.float32(0.33141425), 'cutting'), (np.float32(0.32591513), 'development')]
+student: [(np.float32(0.4342447), 'course'), (np.float32(0.40468362), 'back'), (np.float32(0.39345843), 'supervisor'), (np.float32(0.38949853), 'must'), (np.float32(0.38037673), 'degree')]
+iit:jodhpur::institute:? [(np.float32(0.3339231), 'outside'), (np.float32(0.30564776), 'downward'), (np.float32(0.30396658), 'across')]
+department:engineering::centre:? N/A

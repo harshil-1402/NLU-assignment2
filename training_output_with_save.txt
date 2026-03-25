@@ -1,0 +1,139 @@
+TASK 0: DATASET LOADING
+  Total Indian names loaded from dataset: 1000
+  Loaded from: /home/harshil/Documents/NLU/sol2-nlu/TrainingNames.txt
+  Character vocabulary size: 28
+  Characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+  Maximum name length (with SOS/EOS): 18
+  Using device: cpu
+TASK 1: MODEL IMPLEMENTATION
+
+  Model Architectures and Parameter Counts:
+  ------------------------------------------------------------
+
+  VanillaRNN:
+    Architecture: VanillaRNN
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 30,236
+
+  BiLSTM:
+    Architecture: BiLSTMGenerator
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 211,256
+
+  RNNAttention:
+    Architecture: RNNAttention
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 129,308
+
+  Hyperparameters:
+    Learning rate: 0.003
+    Batch size:    64
+    Epochs:        50
+
+  Training all models (this may take a few minutes)...
+
+  Training VanillaRNN...
+    Epoch 10/50, Loss: 1.8568
+    Epoch 20/50, Loss: 1.6127
+    Epoch 30/50, Loss: 1.4145
+    Epoch 40/50, Loss: 1.2676
+    Epoch 50/50, Loss: 1.1794
+
+  Training BiLSTM...
+    Epoch 10/50, Loss: 1.8578
+    Epoch 20/50, Loss: 1.5115
+    Epoch 30/50, Loss: 1.2558
+    Epoch 40/50, Loss: 1.1246
+    Epoch 50/50, Loss: 1.0613
+
+  Training RNNAttention...
+    Epoch 10/50, Loss: 1.7812
+    Epoch 20/50, Loss: 1.3202
+    Epoch 30/50, Loss: 1.0998
+    Epoch 40/50, Loss: 1.0352
+    Epoch 50/50, Loss: 1.0107
+TASK 2: QUANTITATIVE EVALUATION
+
+  VanillaRNN:
+    Generated: 100 names
+    Novelty Rate: 48.0% (48/100 not in training set)
+    Diversity: 98.0% (98/100 unique)
+
+  BiLSTM:
+    Generated: 100 names
+    Novelty Rate: 23.0% (23/100 not in training set)
+    Diversity: 94.0% (94/100 unique)
+
+  RNNAttention:
+    Generated: 100 names
+    Novelty Rate: 9.0% (9/100 not in training set)
+    Diversity: 97.0% (97/100 unique)
+
+  --------------------------------------------------
+  Model                Novelty %       Diversity %    
+  --------------------------------------------------
+  VanillaRNN           48.0            98.0           
+  BiLSTM               23.0            94.0           
+  RNNAttention         9.0             97.0           
+  --------------------------------------------------
+TASK 3: QUALITATIVE ANALYSIS
+
+  VanillaRNN — Representative Generated Samples:
+    lata, mrinmoy, murali, mitesh, prajit, ushma, pushmash, ritupandra, dabir, nishani, gaurish, shivansh, dhanashyam, arun, remanj, shivanshi, dayakar, devanshi, aadhi, jitesh
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 0
+
+  BiLSTM — Representative Generated Samples:
+    aalap, janali, amal, pandan, rajinder, rajeshwari, harsha, mrityunjay, kunal, anupam, kamal, aninda, nalin, pandan, meera, trusha, indira, aarya, jabin, kalesh
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 2
+      Examples: ['aalap', 'aarya']
+
+  RNNAttention — Representative Generated Samples:
+    krutika, jigar, reyanshi, hemanta, kuldeep, harini, yuvraj, gauravi, rajesh, taksh, rahul, bhushan, nitesh, thiru, balaji, amarendra, darshini, keerthana, gopal, vineet
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 0
+
+  --- Discussion ---
+  Vanilla RNN: Simple architecture, tends to produce shorter names.
+  It may struggle with longer dependencies but generates reasonable
+  character sequences. Common failure: repeating patterns or abrupt stops.
+
+  BiLSTM: Better at capturing both forward and backward context during
+  training, but generation is still left-to-right. Often produces more
+  diverse and natural-sounding names due to richer learned representations.
+
+  RNN with Attention: The attention mechanism helps maintain consistency
+  across longer names by allowing the model to revisit earlier characters.
+  Typically produces the most realistic names but may occasionally
+  generate unusual character combinations when attention weights are noisy.
+
+  Saving models to disk...
+  Models and vocabulary saved.
+
+======================================================================
+ALL TASKS COMPLETED SUCCESSFULLY
+======================================================================
+
+Output files:
+  - /home/harshil/Documents/NLU/sol2-nlu/TrainingNames.txt
+
+Model Details:
+  - VanillaRNN: 30,236 trainable parameters
+  - BiLSTM: 211,256 trainable parameters
+  - RNNAttention: 129,308 trainable parameters

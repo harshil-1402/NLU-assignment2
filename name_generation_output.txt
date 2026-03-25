@@ -1,0 +1,148 @@
+======================================================================
+TASK 0: DATASET GENERATION
+======================================================================
+  Total Indian names in dataset: 919
+  Names saved to: /home/harshil/Documents/NLU/sol2-nlu/TrainingNames.txt
+  Character vocabulary size: 28
+  Characters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+  Maximum name length (with SOS/EOS): 18
+  Using device: cpu
+
+======================================================================
+TASK 1: MODEL IMPLEMENTATION
+======================================================================
+
+  Model Architectures and Parameter Counts:
+  ------------------------------------------------------------
+
+  VanillaRNN:
+    Architecture: VanillaRNN
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 30,236
+
+  BiLSTM:
+    Architecture: BiLSTMGenerator
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 211,256
+
+  RNNAttention:
+    Architecture: RNNAttention
+    Embedding dim: 64
+    Hidden size:   128
+    Num layers:    1
+    Trainable parameters: 129,308
+
+  Hyperparameters:
+    Learning rate: 0.003
+    Batch size:    64
+    Epochs:        50
+
+  Training all models (this may take a few minutes)...
+
+  Training VanillaRNN...
+    Epoch 10/50, Loss: 1.8646
+    Epoch 20/50, Loss: 1.6220
+    Epoch 30/50, Loss: 1.4154
+    Epoch 40/50, Loss: 1.2724
+    Epoch 50/50, Loss: 1.1737
+
+  Training BiLSTM...
+    Epoch 10/50, Loss: 1.8684
+    Epoch 20/50, Loss: 1.5264
+    Epoch 30/50, Loss: 1.2632
+    Epoch 40/50, Loss: 1.1225
+    Epoch 50/50, Loss: 1.0556
+
+  Training RNNAttention...
+    Epoch 10/50, Loss: 1.8018
+    Epoch 20/50, Loss: 1.3473
+    Epoch 30/50, Loss: 1.1164
+    Epoch 40/50, Loss: 1.0388
+    Epoch 50/50, Loss: 1.0117
+
+======================================================================
+TASK 2: QUANTITATIVE EVALUATION
+======================================================================
+
+  VanillaRNN:
+    Generated: 100 names
+    Novelty Rate: 50.0% (50/100 not in training set)
+    Diversity: 95.0% (95/100 unique)
+
+  BiLSTM:
+    Generated: 100 names
+    Novelty Rate: 25.0% (25/100 not in training set)
+    Diversity: 95.0% (95/100 unique)
+
+  RNNAttention:
+    Generated: 100 names
+    Novelty Rate: 9.0% (9/100 not in training set)
+    Diversity: 97.0% (97/100 unique)
+
+  --------------------------------------------------
+  Model                Novelty %       Diversity %    
+  --------------------------------------------------
+  VanillaRNN           50.0            95.0           
+  BiLSTM               25.0            95.0           
+  RNNAttention         9.0             97.0           
+  --------------------------------------------------
+
+======================================================================
+TASK 3: QUALITATIVE ANALYSIS
+======================================================================
+
+  VanillaRNN — Representative Generated Samples:
+    latka, kumar, nirmal, rajeshkar, nedha, shrvikesh, ashok, raghu, ritdika, malaj, milakar, keshal, aadya, sachik, amarjeet, vishan, dipali, aadhya, aradhya, aanya
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 3
+      Examples: ['aadya', 'aanya', 'aanya']
+
+  BiLSTM — Representative Generated Samples:
+    umakshi, kulwinder, indravadan, vandana, abeer, debjit, kalpana, rehan, anihira, subhajit, kanika, bhaskubh, shyam, kanika, prasanna, nirunava, deepan, jaidev, satinder, lakshman
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 0
+
+  RNNAttention — Representative Generated Samples:
+    harjit, hrijit, yamini, himanshu, amol, aalap, hariesh, ramchandra, payal, logesh, siddharth, nirmal, nityanand, harbhajan, amatar, guru, dipjyoti, manohar, gopal, prasanth
+
+    Failure Analysis:
+    - Too short (≤1 char): 0
+    - Too long (>15 chars): 0
+    - Repetitive characters: 3
+      Examples: ['aalap', 'aarya', 'aanya']
+
+  --- Discussion ---
+  Vanilla RNN: Simple architecture, tends to produce shorter names.
+  It may struggle with longer dependencies but generates reasonable
+  character sequences. Common failure: repeating patterns or abrupt stops.
+
+  BiLSTM: Better at capturing both forward and backward context during
+  training, but generation is still left-to-right. Often produces more
+  diverse and natural-sounding names due to richer learned representations.
+
+  RNN with Attention: The attention mechanism helps maintain consistency
+  across longer names by allowing the model to revisit earlier characters.
+  Typically produces the most realistic names but may occasionally
+  generate unusual character combinations when attention weights are noisy.
+
+======================================================================
+ALL TASKS COMPLETED SUCCESSFULLY
+======================================================================
+
+Output files:
+  - /home/harshil/Documents/NLU/sol2-nlu/TrainingNames.txt
+
+Model Details:
+  - VanillaRNN: 30,236 trainable parameters
+  - BiLSTM: 211,256 trainable parameters
+  - RNNAttention: 129,308 trainable parameters
